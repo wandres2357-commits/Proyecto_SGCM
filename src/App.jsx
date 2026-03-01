@@ -2,43 +2,74 @@ import { useState } from "react";
 
 export default function App() {
   const [view, setView] = useState("inicio");
+  const [role, setRole] = useState("usuario"); // usuario | admin
+  const [openMenu, setOpenMenu] = useState(null);
 
-  const MenuButton = ({ label, target }) => (
-    <button
+  const MenuTitle = ({ label, menuKey }) => (
+    <div
+      onClick={() => setOpenMenu(openMenu === menuKey ? null : menuKey)}
+      style={{
+        padding: "12px 16px",
+        fontWeight: "bold",
+        cursor: "pointer",
+        background: "#f0f2f5",
+        borderBottom: "1px solid #ddd"
+      }}
+    >
+      {label}
+    </div>
+  );
+
+  const MenuItem = ({ label, target }) => (
+    <div
       onClick={() => setView(target)}
       style={{
-        width: "100%",
-        padding: "12px 16px",
-        textAlign: "left",
-        border: "none",
+        padding: "10px 24px",
         cursor: "pointer",
-        background: view === target ? "#1976d2" : "transparent",
+        background: view === target ? "#1976d2" : "#fff",
         color: view === target ? "#fff" : "#333"
       }}
     >
       {label}
-    </button>
+    </div>
   );
 
   const Card = ({ children }) => (
-    <div style={{ background: "#fff", padding: 20, borderRadius: 6, maxWidth: 700 }}>
+    <div
+      style={{
+        background: "#fff",
+        padding: 24,
+        borderRadius: 8,
+        maxWidth: 800,
+        boxShadow: "0 2px 8px rgba(0,0,0,0.08)"
+      }}
+    >
       {children}
     </div>
   );
 
   const Input = (props) => (
-    <input {...props} style={{ width: "100%", padding: 8, marginBottom: 10 }} />
+    <input
+      {...props}
+      style={{
+        width: "100%",
+        padding: 10,
+        marginBottom: 12,
+        borderRadius: 4,
+        border: "1px solid #ccc"
+      }}
+    />
   );
 
   const Button = ({ label }) => (
     <button
       style={{
-        padding: "10px 16px",
+        padding: "10px 18px",
         border: "none",
         borderRadius: 4,
-        cursor: "pointer",
-        background: "#2e7d32",
-        color: "#fff"
+        background: "#1976d2",
+        color: "#fff",
+        cursor: "pointer"
       }}
     >
       {label}
@@ -46,83 +77,103 @@ export default function App() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: "Arial" }}>
+    <div style={{ minHeight: "100vh", fontFamily: "Segoe UI", background: "#eef1f4" }}>
       {/* HEADER */}
-      <header style={{ background: "#1976d2", color: "#fff", padding: "12px 20px" }}>
-        <strong>SGCM – Sistema de Gestión</strong>
+      <header
+        style={{
+          background: "#0d47a1",
+          color: "#fff",
+          padding: "14px 24px",
+          display: "flex",
+          justifyContent: "space-between"
+        }}
+      >
+        <strong>SGCM</strong>
+        <div>
+          Rol:
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            style={{ marginLeft: 8, padding: 4 }}
+          >
+            <option value="usuario">Usuario</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
       </header>
 
-      <div style={{ display: "flex", flex: 1 }}>
+      <div style={{ display: "flex" }}>
         {/* MENU */}
-        <aside style={{ width: 260, background: "#fff", borderRight: "1px solid #ddd" }}>
-          <MenuButton label="Inicio" target="inicio" />
-          <MenuButton label="Inicio de Sesión" target="login" />
+        <aside
+          style={{
+            width: 280,
+            background: "#fff",
+            borderRight: "1px solid #ddd",
+            minHeight: "calc(100vh - 56px)"
+          }}
+        >
+          <MenuItem label="Inicio" target="inicio" />
 
-          <MenuButton label="¿Quiénes Somos?" target="quienes" />
-          <MenuButton label="Historia" target="historia" />
-          <MenuButton label="Misión" target="mision" />
-          <MenuButton label="Visión" target="vision" />
-          <MenuButton label="Política de Calidad" target="politica" />
-          <MenuButton label="Información Institucional" target="info" />
-
-          <MenuButton label="Áreas de Trabajo" target="areas" />
-          <MenuButton label="Calidad en el Servicio" target="calidad" />
-
-          <MenuButton label="Novedades" target="novedades" />
-          <MenuButton label="Noticias" target="noticias" />
-          <MenuButton label="Actualizaciones" target="actualizaciones" />
-          <MenuButton label="Boletines" target="boletines" />
-
-          <MenuButton label="Soporte / Ayuda" target="ayuda" />
-          <MenuButton label="Preguntas Frecuentes" target="faq" />
-          <MenuButton label="PQR" target="pqr" />
-
-          <MenuButton label="Contáctenos" target="contacto" />
-        </aside>
-
-        {/* CONTENT */}
-        <main style={{ flex: 1, padding: 24, background: "#f4f6f8" }}>
-          {view === "inicio" && (
+          <MenuTitle label="Nosotros" menuKey="nosotros" />
+          {openMenu === "nosotros" && (
             <>
-              <h2>Bienvenido</h2>
-              <p>Sistema institucional SGCM.</p>
+              <MenuItem label="¿Quiénes Somos?" target="quienes" />
+              <MenuItem label="Historia" target="historia" />
+              <MenuItem label="Misión" target="mision" />
+              <MenuItem label="Visión" target="vision" />
+              <MenuItem label="Política de Calidad" target="politica" />
             </>
           )}
 
-          {view === "login" && (
-            <Card>
-              <h2>Inicio de Sesión</h2>
-              <Input placeholder="Usuario" />
-              <Input type="password" placeholder="Contraseña" />
-              <Button label="Ingresar" />
-            </Card>
+          <MenuTitle label="Servicios" menuKey="servicios" />
+          {openMenu === "servicios" && (
+            <>
+              <MenuItem label="Áreas de Trabajo" target="areas" />
+              <MenuItem label="Calidad en el Servicio" target="calidad" />
+            </>
           )}
 
-          {view === "quienes" && <Card><h2>¿Quiénes Somos?</h2><p>Descripción institucional.</p></Card>}
-          {view === "historia" && <Card><h2>Historia</h2><p>Nuestra trayectoria.</p></Card>}
-          {view === "mision" && <Card><h2>Misión</h2><p>Nuestra razón de ser.</p></Card>}
-          {view === "vision" && <Card><h2>Visión</h2><p>Nuestro futuro.</p></Card>}
-          {view === "politica" && <Card><h2>Política de Calidad</h2><p>Compromiso con la calidad.</p></Card>}
-          {view === "info" && <Card><h2>Información Institucional</h2><p>Datos legales y administrativos.</p></Card>}
+          <MenuTitle label="Novedades" menuKey="novedades" />
+          {openMenu === "novedades" && (
+            <>
+              <MenuItem label="Noticias" target="noticias" />
+              <MenuItem label="Actualizaciones" target="actualizaciones" />
+              <MenuItem label="Boletines" target="boletines" />
+            </>
+          )}
 
-          {view === "areas" && <Card><h2>Áreas de Trabajo</h2><p>Departamentos y funciones.</p></Card>}
-          {view === "calidad" && <Card><h2>Calidad en el Servicio</h2><p>Indicadores y procesos.</p></Card>}
+          <MenuTitle label="Soporte" menuKey="soporte" />
+          {openMenu === "soporte" && (
+            <>
+              <MenuItem label="Ayuda" target="ayuda" />
+              <MenuItem label="Preguntas Frecuentes" target="faq" />
+              <MenuItem label="PQR" target="pqr" />
+            </>
+          )}
 
-          {view === "novedades" && <Card><h2>Novedades</h2><p>Últimos cambios.</p></Card>}
-          {view === "noticias" && <Card><h2>Noticias</h2><p>Comunicados oficiales.</p></Card>}
-          {view === "actualizaciones" && <Card><h2>Actualizaciones</h2><p>Mejoras del sistema.</p></Card>}
-          {view === "boletines" && <Card><h2>Boletines</h2><p>Publicaciones periódicas.</p></Card>}
+          <MenuItem label="Contáctenos" target="contacto" />
 
-          {view === "ayuda" && <Card><h2>Soporte / Ayuda</h2><p>¿Necesitas asistencia?</p></Card>}
-          {view === "faq" && <Card><h2>Preguntas Frecuentes</h2><p>Dudas comunes.</p></Card>}
+          {/* SOLO ADMIN */}
+          {role === "admin" && (
+            <>
+              <MenuTitle label="Administración" menuKey="admin" />
+              {openMenu === "admin" && (
+                <>
+                  <MenuItem label="Usuarios" target="usuarios" />
+                  <MenuItem label="Reportes" target="reportes" />
+                  <MenuItem label="Configuración" target="configuracion" />
+                </>
+              )}
+            </>
+          )}
+        </aside>
 
-          {view === "pqr" && (
+        {/* CONTENIDO */}
+        <main style={{ flex: 1, padding: 32 }}>
+          {view === "inicio" && (
             <Card>
-              <h2>PQR</h2>
-              <Input placeholder="Nombre" />
-              <Input placeholder="Correo" />
-              <Input placeholder="Petición / Queja / Reclamo" />
-              <Button label="Enviar" />
+              <h2>Bienvenido al SGCM</h2>
+              <p>Rol actual: <strong>{role}</strong></p>
             </Card>
           )}
 
@@ -135,12 +186,26 @@ export default function App() {
               <Button label="Enviar" />
             </Card>
           )}
+
+          {view === "pqr" && (
+            <Card>
+              <h2>PQR</h2>
+              <Input placeholder="Asunto" />
+              <Input placeholder="Descripción" />
+              <Button label="Enviar" />
+            </Card>
+          )}
+
+          {view === "configuracion" && role === "admin" && (
+            <Card>
+              <h2>Configuración del Sistema</h2>
+              <Input defaultValue="SGCM" />
+              <Input defaultValue="admin@sgcm.com" />
+              <Button label="Guardar cambios" />
+            </Card>
+          )}
         </main>
       </div>
-
-      <footer style={{ textAlign: "center", padding: 12, fontSize: 13 }}>
-        © 2026 SGCM
-      </footer>
     </div>
   );
 }
