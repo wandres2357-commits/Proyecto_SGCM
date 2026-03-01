@@ -1,7 +1,7 @@
-import AuthWrapper from "./AuthWrapper";
+import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthWrapper />
+    <App />
   </React.StrictMode>
 );
