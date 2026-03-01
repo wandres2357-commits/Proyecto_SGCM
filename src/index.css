@@ -24,8 +24,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -64,5 +62,56 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+/* =========================
+   LAYOUT RESPONSIVE SGCM
+   ========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+/* Tablets y móviles */
+@media (max-width: 1024px) {
+  /* contenedor principal */
+  div[style*="display: flex"] {
+    flex-direction: column;
+  }
+
+  /* menú lateral */
+  aside {
+    width: 100% !important;
+    min-height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* ítems del menú siguen VERTICALES */
+  aside > div {
+    width: 100%;
+  }
+
+  /* contenido */
+  main {
+    padding: 20px !important;
+  }
+}
+
+/* Móviles */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 10px;
+  }
+
+  main {
+    padding: 16px !important;
+  }
+
+  /* cards full width */
+  main > div {
+    max-width: 100% !important;
   }
 }
