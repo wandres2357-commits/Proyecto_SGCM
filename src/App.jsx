@@ -2,7 +2,6 @@ import { useState } from "react";
 
 export default function App() {
   const [view, setView] = useState("inicio");
-  const [role, setRole] = useState("usuario");
   const [openMenu, setOpenMenu] = useState(null);
 
   const MenuTitle = ({ label, menuKey }) => (
@@ -87,28 +86,10 @@ export default function App() {
           background: "#1976d2",
           color: "#fff",
           padding: "16px 28px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center"
+          fontWeight: "bold"
         }}
       >
-        <strong>SGCM – Sistema de Gestión</strong>
-        <div>
-          Rol:
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            style={{
-              marginLeft: 8,
-              padding: 6,
-              borderRadius: 4,
-              border: "none"
-            }}
-          >
-            <option value="usuario">Usuario</option>
-            <option value="admin">Administrador</option>
-          </select>
-        </div>
+        SGCM – Sistema de Gestión
       </header>
 
       <div style={{ display: "flex" }}>
@@ -123,22 +104,14 @@ export default function App() {
         >
           <MenuItem label="Inicio" target="inicio" />
 
-          <MenuTitle label="Nosotros" menuKey="nosotros" />
-          {openMenu === "nosotros" && (
+          <MenuTitle label="¿Quiénes Somos?" menuKey="quienes" />
+          {openMenu === "quienes" && (
             <>
-              <MenuItem label="¿Quiénes Somos?" target="quienes" />
               <MenuItem label="Historia" target="historia" />
               <MenuItem label="Misión" target="mision" />
               <MenuItem label="Visión" target="vision" />
               <MenuItem label="Política de Calidad" target="politica" />
-            </>
-          )}
-
-          <MenuTitle label="Servicios" menuKey="servicios" />
-          {openMenu === "servicios" && (
-            <>
-              <MenuItem label="Áreas de Trabajo" target="areas" />
-              <MenuItem label="Calidad en el Servicio" target="calidad" />
+              <MenuItem label="Información Institucional" target="info" />
             </>
           )}
 
@@ -160,19 +133,9 @@ export default function App() {
             </>
           )}
 
-          <MenuItem label="Contáctenos" target="contacto" />
-
-          {role === "admin" && (
-            <>
-              <MenuTitle label="Administración" menuKey="admin" />
-              {openMenu === "admin" && (
-                <>
-                  <MenuItem label="Usuarios" target="usuarios" />
-                  <MenuItem label="Reportes" target="reportes" />
-                  <MenuItem label="Configuración" target="configuracion" />
-                </>
-              )}
-            </>
+          <MenuTitle label="Contáctenos" menuKey="contacto" />
+          {openMenu === "contacto" && (
+            <MenuItem label="Formulario de Contacto" target="contacto" />
           )}
         </aside>
 
@@ -180,38 +143,45 @@ export default function App() {
         <main style={{ flex: 1, padding: 36 }}>
           {view === "inicio" && (
             <Card>
-              <h2 style={{ color: "#1976d2" }}>Bienvenido al SGCM</h2>
-              <p>
-                Rol actual: <strong style={{ color: "#2e7d32" }}>{role}</strong>
-              </p>
+              <h2 style={{ color: "#1976d2" }}>Inicio</h2>
+              <ul style={{ lineHeight: 2 }}>
+                <li>Inicio de sesión</li>
+                <li>Nosotros</li>
+                <li>Áreas de Trabajo</li>
+                <li>Calidad en el Servicio</li>
+              </ul>
             </Card>
           )}
 
-          {view === "contacto" && (
-            <Card>
-              <h2 style={{ color: "#1976d2" }}>Formulario de Contacto</h2>
-              <Input placeholder="Nombre" />
-              <Input placeholder="Correo" />
-              <Input placeholder="Mensaje" />
-              <Button label="Enviar" />
-            </Card>
-          )}
+          {view === "historia" && <Card><h2>Historia</h2><p>Contenido histórico.</p></Card>}
+          {view === "mision" && <Card><h2>Misión</h2><p>Nuestra misión institucional.</p></Card>}
+          {view === "vision" && <Card><h2>Visión</h2><p>Nuestra visión institucional.</p></Card>}
+          {view === "politica" && <Card><h2>Política de Calidad</h2><p>Compromiso con la calidad.</p></Card>}
+          {view === "info" && <Card><h2>Información Institucional</h2><p>Datos institucionales.</p></Card>}
+
+          {view === "noticias" && <Card><h2>Noticias</h2></Card>}
+          {view === "actualizaciones" && <Card><h2>Actualizaciones</h2></Card>}
+          {view === "boletines" && <Card><h2>Boletines</h2></Card>}
+
+          {view === "ayuda" && <Card><h2>Ayuda</h2></Card>}
+          {view === "faq" && <Card><h2>Preguntas Frecuentes</h2></Card>}
 
           {view === "pqr" && (
             <Card>
-              <h2 style={{ color: "#1976d2" }}>PQR</h2>
+              <h2>PQR</h2>
               <Input placeholder="Asunto" />
               <Input placeholder="Descripción" />
               <Button label="Enviar" />
             </Card>
           )}
 
-          {view === "configuracion" && role === "admin" && (
+          {view === "contacto" && (
             <Card>
-              <h2 style={{ color: "#1976d2" }}>Configuración del Sistema</h2>
-              <Input defaultValue="SGCM" />
-              <Input defaultValue="admin@sgcm.com" />
-              <Button label="Guardar cambios" />
+              <h2>Formulario de Contacto</h2>
+              <Input placeholder="Nombre" />
+              <Input placeholder="Correo" />
+              <Input placeholder="Mensaje" />
+              <Button label="Enviar" />
             </Card>
           )}
         </main>
