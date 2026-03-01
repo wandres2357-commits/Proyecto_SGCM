@@ -5,6 +5,7 @@ import {
   Container,
   Paper,
   Typography,
+  TextField,
   Select,
   MenuItem,
   Button,
@@ -30,6 +31,12 @@ const theme = createTheme({
 
 export default function Login({ onLogin }) {
   const [role, setRole] = useState("user");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    onLogin({ role, username, password });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,11 +55,30 @@ export default function Login({ onLogin }) {
               variant="h5"
               align="center"
               color="primary"
-              gutterBottom
               fontWeight={600}
+              gutterBottom
             >
               Iniciar Sesión
             </Typography>
+
+            <TextField
+              label="Usuario"
+              fullWidth
+              margin="normal"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              color="primary"
+            />
+
+            <TextField
+              label="Contraseña"
+              type="password"
+              fullWidth
+              margin="normal"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              color="primary"
+            />
 
             <Select
               fullWidth
@@ -70,7 +96,8 @@ export default function Login({ onLogin }) {
               variant="contained"
               color="primary"
               sx={{ mt: 3, py: 1.2 }}
-              onClick={() => onLogin(role)}
+              onClick={handleLogin}
+              disabled={!username || !password}
             >
               Entrar
             </Button>
