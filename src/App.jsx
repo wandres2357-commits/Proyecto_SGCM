@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function App() {
   const [view, setView] = useState("inicio");
-  const [role, setRole] = useState("usuario"); // usuario | admin
+  const [role, setRole] = useState("usuario");
   const [openMenu, setOpenMenu] = useState(null);
 
   const MenuTitle = ({ label, menuKey }) => (
@@ -12,8 +12,9 @@ export default function App() {
         padding: "12px 16px",
         fontWeight: "bold",
         cursor: "pointer",
-        background: "#f0f2f5",
-        borderBottom: "1px solid #ddd"
+        background: "#e3f2fd",
+        color: "#1976d2",
+        borderBottom: "1px solid #bbdefb"
       }}
     >
       {label}
@@ -24,10 +25,11 @@ export default function App() {
     <div
       onClick={() => setView(target)}
       style={{
-        padding: "10px 24px",
+        padding: "10px 28px",
         cursor: "pointer",
         background: view === target ? "#1976d2" : "#fff",
-        color: view === target ? "#fff" : "#333"
+        color: view === target ? "#fff" : "#333",
+        borderLeft: view === target ? "4px solid #2e7d32" : "4px solid transparent"
       }}
     >
       {label}
@@ -38,10 +40,10 @@ export default function App() {
     <div
       style={{
         background: "#fff",
-        padding: 24,
+        padding: 28,
         borderRadius: 8,
-        maxWidth: 800,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.08)"
+        maxWidth: 900,
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)"
       }}
     >
       {children}
@@ -54,9 +56,9 @@ export default function App() {
       style={{
         width: "100%",
         padding: 10,
-        marginBottom: 12,
+        marginBottom: 14,
         borderRadius: 4,
-        border: "1px solid #ccc"
+        border: "1px solid #90caf9"
       }}
     />
   );
@@ -64,11 +66,12 @@ export default function App() {
   const Button = ({ label }) => (
     <button
       style={{
-        padding: "10px 18px",
+        padding: "10px 20px",
         border: "none",
         borderRadius: 4,
-        background: "#1976d2",
+        background: "#2e7d32",
         color: "#fff",
+        fontWeight: "bold",
         cursor: "pointer"
       }}
     >
@@ -77,24 +80,30 @@ export default function App() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", fontFamily: "Segoe UI", background: "#eef1f4" }}>
+    <div style={{ minHeight: "100vh", fontFamily: "Segoe UI", background: "#f4f6f8" }}>
       {/* HEADER */}
       <header
         style={{
-          background: "#0d47a1",
+          background: "#1976d2",
           color: "#fff",
-          padding: "14px 24px",
+          padding: "16px 28px",
           display: "flex",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          alignItems: "center"
         }}
       >
-        <strong>SGCM</strong>
+        <strong>SGCM – Sistema de Gestión</strong>
         <div>
           Rol:
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            style={{ marginLeft: 8, padding: 4 }}
+            style={{
+              marginLeft: 8,
+              padding: 6,
+              borderRadius: 4,
+              border: "none"
+            }}
           >
             <option value="usuario">Usuario</option>
             <option value="admin">Administrador</option>
@@ -106,10 +115,10 @@ export default function App() {
         {/* MENU */}
         <aside
           style={{
-            width: 280,
-            background: "#fff",
+            width: 300,
+            background: "#ffffff",
             borderRight: "1px solid #ddd",
-            minHeight: "calc(100vh - 56px)"
+            minHeight: "calc(100vh - 64px)"
           }}
         >
           <MenuItem label="Inicio" target="inicio" />
@@ -153,7 +162,6 @@ export default function App() {
 
           <MenuItem label="Contáctenos" target="contacto" />
 
-          {/* SOLO ADMIN */}
           {role === "admin" && (
             <>
               <MenuTitle label="Administración" menuKey="admin" />
@@ -169,17 +177,19 @@ export default function App() {
         </aside>
 
         {/* CONTENIDO */}
-        <main style={{ flex: 1, padding: 32 }}>
+        <main style={{ flex: 1, padding: 36 }}>
           {view === "inicio" && (
             <Card>
-              <h2>Bienvenido al SGCM</h2>
-              <p>Rol actual: <strong>{role}</strong></p>
+              <h2 style={{ color: "#1976d2" }}>Bienvenido al SGCM</h2>
+              <p>
+                Rol actual: <strong style={{ color: "#2e7d32" }}>{role}</strong>
+              </p>
             </Card>
           )}
 
           {view === "contacto" && (
             <Card>
-              <h2>Formulario de Contacto</h2>
+              <h2 style={{ color: "#1976d2" }}>Formulario de Contacto</h2>
               <Input placeholder="Nombre" />
               <Input placeholder="Correo" />
               <Input placeholder="Mensaje" />
@@ -189,7 +199,7 @@ export default function App() {
 
           {view === "pqr" && (
             <Card>
-              <h2>PQR</h2>
+              <h2 style={{ color: "#1976d2" }}>PQR</h2>
               <Input placeholder="Asunto" />
               <Input placeholder="Descripción" />
               <Button label="Enviar" />
@@ -198,7 +208,7 @@ export default function App() {
 
           {view === "configuracion" && role === "admin" && (
             <Card>
-              <h2>Configuración del Sistema</h2>
+              <h2 style={{ color: "#1976d2" }}>Configuración del Sistema</h2>
               <Input defaultValue="SGCM" />
               <Input defaultValue="admin@sgcm.com" />
               <Button label="Guardar cambios" />
