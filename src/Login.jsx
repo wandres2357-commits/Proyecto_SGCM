@@ -1,74 +1,82 @@
 import { useState } from "react";
+import {
+  ThemeProvider,
+  createTheme,
+  Container,
+  Paper,
+  Typography,
+  Select,
+  MenuItem,
+  Button,
+  Box,
+} from "@mui/material";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1976d2", // azul institucional
+    },
+    secondary: {
+      main: "#2e7d32", // verde
+    },
+    background: {
+      default: "#f4f6f8",
+    },
+  },
+  typography: {
+    fontFamily: "Segoe UI, Roboto, Arial",
+  },
+});
 
 export default function Login({ onLogin }) {
   const [role, setRole] = useState("user");
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "linear-gradient(135deg, #1976d2, #2e7d32)",
-        fontFamily: "Segoe UI",
-      }}
-    >
-      <div
-        style={{
-          background: "#ffffff",
-          padding: 32,
-          borderRadius: 10,
-          width: 320,
-          boxShadow: "0 6px 16px rgba(0,0,0,.2)",
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "linear-gradient(135deg, #1976d2, #2e7d32)",
         }}
       >
-        <h2
-          style={{
-            color: "#1976d2",
-            textAlign: "center",
-            marginBottom: 24,
-          }}
-        >
-          Iniciar Sesión
-        </h2>
+        <Container maxWidth="xs">
+          <Paper elevation={6} sx={{ p: 4, borderRadius: 2 }}>
+            <Typography
+              variant="h5"
+              align="center"
+              color="primary"
+              gutterBottom
+              fontWeight={600}
+            >
+              Iniciar Sesión
+            </Typography>
 
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          style={{
-            width: "100%",
-            padding: 10,
-            marginBottom: 20,
-            borderRadius: 4,
-            border: "1px solid #2e7d32",
-            color: "#2e7d32",
-            outline: "none",
-          }}
-        >
-          <option value="user">Usuario</option>
-          <option value="admin">Administrador</option>
-        </select>
+            <Select
+              fullWidth
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              sx={{ mt: 2 }}
+              color="secondary"
+            >
+              <MenuItem value="user">Usuario</MenuItem>
+              <MenuItem value="admin">Administrador</MenuItem>
+            </Select>
 
-        <button
-          onClick={() => onLogin(role)}
-          style={{
-            width: "100%",
-            padding: 12,
-            background: "#1976d2",
-            color: "#ffffff",
-            border: "none",
-            borderRadius: 4,
-            fontWeight: 600,
-            cursor: "pointer",
-            transition: "background .3s",
-          }}
-          onMouseOver={(e) => (e.target.style.background = "#1565c0")}
-          onMouseOut={(e) => (e.target.style.background = "#1976d2")}
-        >
-          Entrar
-        </button>
-      </div>
-    </div>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 3, py: 1.2 }}
+              onClick={() => onLogin(role)}
+            >
+              Entrar
+            </Button>
+          </Paper>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 }
