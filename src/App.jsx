@@ -89,7 +89,7 @@ export default function App() {
           fontWeight: "bold"
         }}
       >
-        SGCM – Sistema de Gestión
+        SGCM – Sistema de Gestión Citas Medicas
       </header>
 
       <div style={{ display: "flex" }}>
@@ -145,7 +145,6 @@ export default function App() {
             <Card>
               <h2 style={{ color: "#1976d2" }}>Inicio</h2>
               <ul style={{ lineHeight: 2 }}>
-                <li>Inicio de sesión</li>
                 <li>Nosotros</li>
                 <li>Áreas de Trabajo</li>
                 <li>Calidad en el Servicio</li>
